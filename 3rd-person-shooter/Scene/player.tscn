@@ -29,6 +29,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_dhqey")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.96434, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.618648, -0.00368905, -0.649038)
 spring_length = 2.0
 margin = 0.5
 
