@@ -35,7 +35,7 @@ margin = 0.5
 
 [node name="RayCast3D" type="RayCast3D" parent="CamOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
-target_position = Vector3(0, 0, -10)
+target_position = Vector3(0, -1, -100)
 
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
