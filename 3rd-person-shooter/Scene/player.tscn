@@ -26,18 +26,25 @@ mesh = SubResource("CapsuleMesh_iwlb2")
 surface_material_override/0 = SubResource("StandardMaterial3D_dhqey")
 
 [node name="CamOrigin" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.96434, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174271, 0.964, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.618648, -0.00368905, -0.275912)
 spring_length = 2.0
 margin = 0.5
 
+[node name="RayCast3D" type="RayCast3D" parent="CamOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
+target_position = Vector3(0, 0, -10)
+
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
 fov = 90.0
 
 [node name="DirMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.649662, -0.716027)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.4985, 0.280059, -0.240998)
 mesh = SubResource("BoxMesh_25cyt")
 surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
+
+[node name="RayCast3D" type="RayCast3D" parent="DirMesh"]
+target_position = Vector3(0, 0, -50)

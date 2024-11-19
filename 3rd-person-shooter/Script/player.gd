@@ -20,9 +20,13 @@ func _input(event):
 		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
 		
 func _physics_process(delta):
-	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+
+	if Input.is_action_pressed("aim"):
+		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,-0.95), 0.3)
+	else:
+		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0), 0.5)
 
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -41,5 +45,4 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
 	move_and_slide()
