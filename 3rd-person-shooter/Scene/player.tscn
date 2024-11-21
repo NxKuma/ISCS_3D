@@ -48,3 +48,5 @@ surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
 
 [node name="RayCast3D" type="RayCast3D" parent="DirMesh"]
 target_position = Vector3(0, 0, -50)
+
+[node name="Magazine" type="Node3D" parent="."]
