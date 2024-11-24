@@ -17,6 +17,7 @@ var aiming = 1.0 #1 for regular, 0 for ADS
 @onready var gun_dir: Marker3D = $DirMesh/Marker3D
 @onready var shoot_time: Timer = $DirMesh/ShootTime
 @export var sens: float = 0.3
+@onready var pew_sfx: AudioStreamPlayer3D = $PewSFX
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -110,7 +111,7 @@ func safe_look_at(node : Node3D, target : Vector3) -> void:
 func shoot() -> void:
 	can_shoot = false
 	shoot_time.start()
-	
+	pew_sfx.play()
 	var b = PROJECTILE.instantiate()
 	#b.rotation_degrees = gun.global_transform.basis.get_euler()
 	safe_look_at(b,mark.global_transform.origin)

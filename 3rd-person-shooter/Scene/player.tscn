@@ -1,6 +1,7 @@
-[gd_scene load_steps=21 format=3 uid="uid://dmtfs2elfjmxh"]
+[gd_scene load_steps=22 format=3 uid="uid://dmtfs2elfjmxh"]
 
 [ext_resource type="Script" path="res://Script/player.gd" id="1_4wdhb"]
+[ext_resource type="AudioStream" uid="uid://dtuwsq0nadsb3" path="res://Audio/pew_sfx.mp3" id="2_15rmf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a5klb"]
 
@@ -57,7 +58,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.647, 0, -1.25)]
+"values": [Vector3(0.647, 0, -0.3)]
 }
 
 [sub_resource type="Animation" id="Animation_b573p"]
@@ -118,7 +119,7 @@ animation = &"shoulder_right"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_f656q"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7rjg1"]
-graph_offset = Vector2(-145.644, 143.486)
+graph_offset = Vector2(14.4609, 236.568)
 nodes/aim_left/node = SubResource("AnimationNodeAnimation_jovsm")
 nodes/aim_left/position = Vector2(140, 60)
 nodes/aim_right/node = SubResource("AnimationNodeAnimation_fedb5")
@@ -191,5 +192,9 @@ parameters/shoulder_swap/blend_amount = 0.0
 
 [node name="Magazine" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50104, 0.246486, -0.611766)
+
+[node name="PewSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_15rmf")
+volume_db = -15.0
 
 [connection signal="timeout" from="DirMesh/ShootTime" to="." method="_on_shoot_time_timeout"]
