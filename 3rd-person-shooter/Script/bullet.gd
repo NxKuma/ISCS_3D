@@ -13,9 +13,9 @@ func _on_timer_timeout() -> void:
 	queue_free()
 
 func _on_body_entered(body: Node3D) -> void:
+	print(body)
 	if !body.is_in_group("Player"):
 		set_process(false)
-		print(global_position)
 		var particle = GPU.instantiate()
 		add_sibling(particle)
 		particle.global_position = global_position

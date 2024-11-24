@@ -17,6 +17,7 @@ material = SubResource("StandardMaterial3D_nxfhk")
 
 [node name="Bullet" type="Area3D"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_mask = 3
 script = ExtResource("1_hggm7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
