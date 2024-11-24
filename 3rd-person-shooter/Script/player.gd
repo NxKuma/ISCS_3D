@@ -39,7 +39,6 @@ func _physics_process(delta):
 		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0), 0.5)
 
 	if Input.is_action_just_pressed("shoot") and can_shoot:
-		print("Hello")
 		shoot()
 
 	# Handle Jump.
