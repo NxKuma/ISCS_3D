@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://q70lg6ehjy14"
+path.s3tc="res://.godot/imported/Harold-animations_head.png-9382912fd16d901d8e4e21d50d91ecd5.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "85e6d66f85f47bbd0c3a6df0f201975c"
+}
+
+[deps]
+
+source_file="res://Art/Harold-animations_head.png"
+dest_files=["res://.godot/imported/Harold-animations_head.png-9382912fd16d901d8e4e21d50d91ecd5.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

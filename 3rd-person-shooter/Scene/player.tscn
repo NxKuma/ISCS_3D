@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmtfs2elfjmxh"]
+[gd_scene load_steps=10 format=3 uid="uid://dmtfs2elfjmxh"]
 
 [ext_resource type="Script" path="res://Script/player.gd" id="1_4wdhb"]
+[ext_resource type="PackedScene" uid="uid://clg5wr8waxwle" path="res://Scene/Harold-animations.tscn" id="2_mr0vs"]
+[ext_resource type="PackedScene" uid="uid://dwskfqp60ryb1" path="res://Scene/firefly-jar.tscn" id="3_rig1q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_a5klb"]
 
@@ -8,6 +10,8 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dhqey"]
 albedo_color = Color(0.330018, 0.198035, 0.807451, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_41lgt"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_25cyt"]
 size = Vector3(0.5, 0.5, 1.5)
@@ -22,11 +26,49 @@ script = ExtResource("1_4wdhb")
 shape = SubResource("CapsuleShape3D_a5klb")
 
 [node name="BodyMesh" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_iwlb2")
 surface_material_override/0 = SubResource("StandardMaterial3D_dhqey")
 
+[node name="Harold-animations" parent="." instance=ExtResource("2_mr0vs")]
+transform = Transform3D(-0.6, 0, -5.24537e-08, 0, 0.6, 0, 5.24537e-08, 0, -0.6, 0, -0.907532, 0)
+
+[node name="Skeleton3D" parent="Harold-animations/Armature" index="0"]
+bones/0/position = Vector3(2.66255, 1.16958, -89.5855)
+bones/0/rotation = Quaternion(-0.728819, -0.0472794, 0.016137, 0.682881)
+bones/1/rotation = Quaternion(0.0316049, 0.0167584, 0.0198188, 0.999163)
+bones/2/rotation = Quaternion(0.010815, 0.00449161, 0.0141058, 0.999832)
+bones/3/rotation = Quaternion(0.0103204, 0.00435566, 0.0140494, 0.999839)
+bones/4/rotation = Quaternion(0.0506184, -0.00206403, 0.00328209, 0.998711)
+bones/5/rotation = Quaternion(-0.073774, 0.00737605, -0.00169446, 0.997246)
+bones/6/position = Vector3(1.22935e-07, 158.677, -1.80351)
+bones/7/rotation = Quaternion(0.699241, 0.303713, -0.503573, 0.40649)
+bones/8/position = Vector3(4.59507e-07, 38.8726, 1.29122e-06)
+bones/8/rotation = Quaternion(0.448628, 0.140328, 0.106291, 0.87621)
+bones/9/position = Vector3(2.98617e-07, 18.2115, -9.73038e-06)
+bones/9/rotation = Quaternion(-0.00842918, 0.631619, 0.0101728, 0.775167)
+bones/10/position = Vector3(-7.74861e-06, 28.2293, -3.57626e-07)
+bones/11/position = Vector3(-18.2321, 14.7894, -0.154256)
+bones/11/rotation = Quaternion(0.697175, -0.302535, 0.524283, 0.384118)
+bones/12/position = Vector3(3.3434e-06, 38.8727, -2.2094e-05)
+bones/12/rotation = Quaternion(0.375336, -0.23495, -0.117966, 0.888822)
+bones/13/position = Vector3(5.43335e-06, 18.1708, -6.84496e-07)
+bones/13/rotation = Quaternion(-0.0406031, -0.70491, -0.0411367, 0.706938)
+bones/14/position = Vector3(5.7554e-07, 28.2243, -1.07288e-06)
+bones/15/rotation = Quaternion(0.133705, 0.112328, 0.980499, -0.0901483)
+bones/16/rotation = Quaternion(-0.264171, -0.00263439, 0.0287594, 0.964043)
+bones/17/rotation = Quaternion(0.783348, -0.0321592, -0.0686407, 0.616944)
+bones/18/position = Vector3(2.6249e-06, 7.63691, 8.98136e-06)
+bones/18/rotation = Quaternion(0.0411657, 0.00631863, -0.080748, 0.995864)
+bones/19/position = Vector3(3.49246e-06, 7.71367, -1.21145e-08)
+bones/20/rotation = Quaternion(-0.0895074, -0.0793417, 0.992804, -0.00578869)
+bones/21/rotation = Quaternion(-0.0566984, 0.0832067, -0.0209349, 0.994698)
+bones/22/rotation = Quaternion(0.7705, 0.0224804, 0.0443303, 0.6355)
+bones/23/rotation = Quaternion(0.0599765, -0.00871452, 0.0800331, 0.994948)
+bones/24/position = Vector3(2.58536e-06, 7.91657, 1.86265e-09)
+
 [node name="CamOrigin" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174271, 0.964, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.364, 0.947, 0.568)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.618648, -0.00368905, -0.275912)
@@ -36,28 +78,43 @@ margin = 0.5
 [node name="RayCast3D" type="RayCast3D" parent="CamOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
 visible = false
-target_position = Vector3(0, -1, -500)
+target_position = Vector3(0, 0, -500)
 
 [node name="Marker3D" type="Marker3D" parent="CamOrigin/SpringArm3D/RayCast3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
 
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.805189, -0.0441609, 2.56359)
 fov = 90.0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CamOrigin/SpringArm3D/Camera3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CamOrigin/SpringArm3D/Camera3D/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -200)
+shape = SubResource("SphereShape3D_41lgt")
 
 [node name="DirMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.4985, 0.280059, -0.240998)
+visible = false
 mesh = SubResource("BoxMesh_25cyt")
 surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
-
-[node name="Marker3D" type="Marker3D" parent="DirMesh"]
-transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 0, -0.813574)
-
-[node name="ShootTime" type="Timer" parent="DirMesh"]
-wait_time = 0.05
-one_shot = true
 
 [node name="Magazine" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50104, 0.246486, -0.611766)
 
-[connection signal="timeout" from="DirMesh/ShootTime" to="." method="_on_shoot_time_timeout"]
+[node name="firefly-jar" parent="." instance=ExtResource("3_rig1q")]
+transform = Transform3D(0.300448, 0, 0, 0, 0.300448, 0, 0, 0, 0.300448, 0.70465, -0.118678, 0.116315)
+
+[node name="Marker3D" type="Marker3D" parent="firefly-jar"]
+transform = Transform3D(-7.27437e-08, 1.66418, 7.27437e-08, 0, -7.27437e-08, 1.66418, 1.66418, 7.27437e-08, 3.17973e-15, -0.0104792, 0.0912767, -2.5977)
+
+[node name="ShootTime" type="Timer" parent="firefly-jar"]
+wait_time = 0.05
+one_shot = true
+
+[node name="RayCast3D" type="RayCast3D" parent="firefly-jar"]
+target_position = Vector3(0, -1, -600)
+
+[connection signal="timeout" from="firefly-jar/ShootTime" to="." method="_on_shoot_time_timeout"]
+
+[editable path="Harold-animations"]
