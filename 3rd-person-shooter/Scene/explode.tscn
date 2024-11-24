@@ -1,0 +1,76 @@
+[gd_scene load_steps=16 format=3 uid="uid://dff65jpi2frj6"]
+
+[ext_resource type="Script" path="res://Script/explode.gd" id="1_l60cx"]
+
+[sub_resource type="Gradient" id="Gradient_5m76b"]
+offsets = PackedFloat32Array(0.118182, 0.390909, 0.645455)
+colors = PackedColorArray(0.890196, 0.952941, 0.145098, 1, 1, 0.454, 0.22, 1, 0.16, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gna48"]
+gradient = SubResource("Gradient_5m76b")
+
+[sub_resource type="Curve" id="Curve_8wnyt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.282609, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_vpglj"]
+curve = SubResource("Curve_8wnyt")
+
+[sub_resource type="Curve" id="Curve_35lif"]
+resource_local_to_scene = true
+_data = [Vector2(0, 0.967033), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t6pxh"]
+resource_local_to_scene = true
+curve = SubResource("Curve_35lif")
+
+[sub_resource type="Curve" id="Curve_wusb6"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_ltldp"]
+curve = SubResource("Curve_wusb6")
+
+[sub_resource type="Curve" id="Curve_sctqv"]
+max_value = 6.0
+_data = [Vector2(0, 6), 0.0, 0.0, 0, 0, Vector2(0.5, 3), -24.1471, -24.1471, 0, 0, Vector2(0.9, 1.2), -2.64162, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="CurveTexture" id="CurveTexture_h787u"]
+curve = SubResource("Curve_sctqv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ca3lr"]
+resource_local_to_scene = true
+radial_velocity_min = 4.99998
+radial_velocity_max = 20.0
+radial_velocity_curve = SubResource("CurveTexture_t6pxh")
+velocity_limit_curve = SubResource("CurveTexture_h787u")
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_ltldp")
+color_ramp = SubResource("GradientTexture1D_gna48")
+emission_curve = SubResource("CurveTexture_vpglj")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rvhgo"]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_mopro"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_rvhgo")
+
+[sub_resource type="Skin" id="Skin_080pn"]
+
+[node name="GPUParticles3D" type="GPUParticles3D"]
+emitting = false
+lifetime = 0.7
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ca3lr")
+draw_pass_1 = SubResource("SphereMesh_mopro")
+draw_skin = SubResource("Skin_080pn")
+script = ExtResource("1_l60cx")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

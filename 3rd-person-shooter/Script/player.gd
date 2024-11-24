@@ -26,7 +26,6 @@ func _input(event):
 		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
 		
 func _physics_process(delta):
-	
 	#gun.rotate(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position,(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position).angle_to() )
 	safe_look_at(gun,mark.global_transform.origin)
 	
@@ -91,7 +90,7 @@ func shoot() -> void:
 	shoot_time.start()
 	
 	var b = PROJECTILE.instantiate()
-	b.rotation_degrees = gun_dir.global_transform.basis.get_euler()
+	b.rotation_degrees = gun.global_transform.basis.get_euler()
 	gun_dir.add_child(b)
 
 func _on_shoot_time_timeout() -> void:
