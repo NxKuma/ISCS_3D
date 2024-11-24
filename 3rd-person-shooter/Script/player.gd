@@ -9,15 +9,20 @@ var aim_shoulder_left = "parameters/aim_shoulder_left/blend_amount"
 var shoulder = 1.0 #1 for s-right, 0 for s,left
 var aiming = 1.0 #1 for regular, 0 for ADS
 
-
 @onready var pivot = $CamOrigin
 @onready var spring_arm_3d: SpringArm3D = $CamOrigin/SpringArm3D
 @onready var mark: Marker3D = $CamOrigin/SpringArm3D/RayCast3D/Marker3D
-@onready var gun: MeshInstance3D = $DirMesh
-@onready var gun_dir: Marker3D = $DirMesh/Marker3D
-@onready var shoot_time: Timer = $DirMesh/ShootTime
 @export var sens: float = 0.3
 @onready var pew_sfx: AudioStreamPlayer3D = $PewSFX
+@onready var harold: Node3D = $"Harold-animations"
+@onready var harold_tree: AnimationTree = harold.get_child(3)
+@onready var gun: Node3D = $"firefly-jar"
+@onready var gun_dir: Marker3D = $"firefly-jar/Marker3D"
+@onready var shoot_time: Timer = $"firefly-jar/ShootTime"
+
+@onready var center: RayCast3D = $CamOrigin/SpringArm3D/RayCast3D
+@onready var gunray: RayCast3D = $"firefly-jar/RayCast3D"
+@onready var camera: Camera3D = $CamOrigin/SpringArm3D/Camera3D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -32,11 +37,13 @@ func _input(event):
 		rotate_y(deg_to_rad(-event.relative.x * sens))
 		pivot.rotate_x(deg_to_rad(-event.relative.y * sens))
 		pivot.rotation.x = clamp(pivot.rotation.x, deg_to_rad(-90), deg_to_rad(45))
-		
-func _physics_process(delta):
-	
+
+func _process(delta: float) -> void:
 	safe_look_at(gun,mark.global_transform.origin)
-	
+	update_animation_params()
+	get_intersection()
+
+func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
@@ -48,6 +55,13 @@ func _physics_process(delta):
 		#pivot.position = pivot.position.lerp(Vector3(0.174,0.964,-0.628), 0.3)
 	#else:
 		#pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0.628), 0.5)
+
+#	Left -2.364, 947
+#	Right 0.559,0.964
+	#if Input.is_action_pressed("aim"):
+		#pivot.position = pivot.position.lerp(Vector3(0.559,0.964,-0.499), 0.3)
+	#else:
+		#pivot.position = pivot.position.lerp(Vector3(0.559,0.964,0.568), 0.5)
 
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot()
@@ -106,15 +120,59 @@ func safe_look_at(node : Node3D, target : Vector3) -> void:
 	# Look at the target
 	if up != Vector3.ZERO:
 		node.look_at(target, up)
+
+func update_animation_params():
+	if velocity == Vector3.ZERO:
+		harold_tree["parameters/conditions/idle"] = true
+		harold_tree["parameters/conditions/isRunning"] = false
+		harold_tree["parameters/conditions/isWalking"] = false
+	else:
+		harold_tree["parameters/conditions/idle"] = false
+		if Input.is_action_pressed("run"):
+			harold_tree["parameters/conditions/isRunning"] = true
+			harold_tree["parameters/conditions/isWalking"] = false
+		else:
+			harold_tree["parameters/conditions/isRunning"] = false
+			harold_tree["parameters/conditions/isWalking"] = true
+	
+	if Input.is_action_pressed("aim") and can_shoot:
+		harold_tree["parameters/conditions/idle"] = false
+		harold_tree["parameters/conditions/isRunning"] = false
+		harold_tree["parameters/conditions/isWalking"] = false
+		harold_tree["parameters/conditions/isAiming"] = true
+	else:
+		harold_tree["parameters/conditions/isAiming"] = false
+	
+	if Input.is_action_just_pressed("shoot") and can_shoot == false:
+		harold_tree["parameters/conditions/isAiming"] = false
+		harold_tree["parameters/conditions/idle"] = false
+		harold_tree["parameters/conditions/isRunning"] = false
+		harold_tree["parameters/conditions/isWalking"] = false
+		harold_tree["parameters/conditions/shoot"] = true
+	else:
+		harold_tree["parameters/conditions/shoot"] = false
 		
+
+func get_intersection() -> void:
+	var centre = get_viewport().get_size()/2
+	
+	var origin = camera.project_ray_origin(centre)
+	var ray_end = origin + camera.project_ray_normal(centre)*1000
+	
+	var new_intersection = PhysicsRayQueryParameters3D.create(origin,ray_end)
+	var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	
+	if not intersection.is_empty():
+		mark.global_position = intersection.position
+	else:
+		mark.position = Vector3(0,1,-500)
 
 func shoot() -> void:
 	can_shoot = false
 	shoot_time.start()
 	pew_sfx.play()
 	var b = PROJECTILE.instantiate()
-	#b.rotation_degrees = gun.global_transform.basis.get_euler()
-	safe_look_at(b,mark.global_transform.origin)
+	safe_look_at(b, mark.global_transform.origin)
 	gun_dir.add_child(b)
 
 func _on_shoot_time_timeout() -> void:
