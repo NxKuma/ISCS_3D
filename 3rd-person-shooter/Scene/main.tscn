@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://drtmklv0ipg5f"]
+[gd_scene load_steps=18 format=3 uid="uid://drtmklv0ipg5f"]
 
 [ext_resource type="PackedScene" uid="uid://dmtfs2elfjmxh" path="res://Scene/player.tscn" id="1_n85ye"]
+[ext_resource type="PackedScene" uid="uid://bev5bqihmec2h" path="res://Scene/target.tscn" id="2_b1shi"]
 [ext_resource type="Texture2D" uid="uid://rb7ib2ghc35b" path="res://Art/crosshair.png" id="2_k3dri"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tkwws"]
@@ -42,6 +43,44 @@ albedo_color = Color(0.705882, 0.435294, 0.243137, 1)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_lnice"]
 data = PackedVector3Array(-0.25, 1.5, 2.5, 0.25, 1.5, 2.5, -0.25, -1.5, 2.5, 0.25, 1.5, 2.5, 0.25, -1.5, 2.5, -0.25, -1.5, 2.5, 0.25, 1.5, -2.5, -0.25, 1.5, -2.5, 0.25, -1.5, -2.5, -0.25, 1.5, -2.5, -0.25, -1.5, -2.5, 0.25, -1.5, -2.5, 0.25, 1.5, 2.5, 0.25, 1.5, -2.5, 0.25, -1.5, 2.5, 0.25, 1.5, -2.5, 0.25, -1.5, -2.5, 0.25, -1.5, 2.5, -0.25, 1.5, -2.5, -0.25, 1.5, 2.5, -0.25, -1.5, -2.5, -0.25, 1.5, 2.5, -0.25, -1.5, 2.5, -0.25, -1.5, -2.5, 0.25, 1.5, 2.5, -0.25, 1.5, 2.5, 0.25, 1.5, -2.5, -0.25, 1.5, 2.5, -0.25, 1.5, -2.5, 0.25, 1.5, -2.5, -0.25, -1.5, 2.5, 0.25, -1.5, 2.5, -0.25, -1.5, -2.5, 0.25, -1.5, 2.5, 0.25, -1.5, -2.5, -0.25, -1.5, -2.5)
 
+[sub_resource type="Animation" id="Animation_1n0dx"]
+resource_name = "move_target"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.223593, 1.5376, 7.92253), Vector3(5.84478, 1.5376, 7.92253), Vector3(-0.223593, 1.5376, 7.92253)]
+}
+
+[sub_resource type="Animation" id="Animation_7v0qd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(5.84478, 1.5376, 7.92253)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oxrvu"]
+_data = {
+"RESET": SubResource("Animation_7v0qd"),
+"move_target": SubResource("Animation_1n0dx")
+}
+
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -75,6 +114,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_p4twt")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_tn5e3")
 
+[node name="Target" parent="Pillar" instance=ExtResource("2_b1shi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00146341, 2.00726, -0.000399113)
+
 [node name="Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.47912, 1.51283, 3.03739)
 mesh = SubResource("BoxMesh_3var3")
@@ -85,9 +127,21 @@ surface_material_override/0 = SubResource("StandardMaterial3D_asind")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_lnice")
 
+[node name="Target" parent="." instance=ExtResource("2_b1shi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.72922, 1.38915, 1.69099)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(576, 324)
 scale = Vector2(0.15, 0.15)
 texture = ExtResource("2_k3dri")
+
+[node name="Target2" parent="." instance=ExtResource("2_b1shi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.84478, 1.5376, 7.92253)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Target2"]
+libraries = {
+"": SubResource("AnimationLibrary_oxrvu")
+}
+autoplay = "move_target"

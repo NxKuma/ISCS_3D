@@ -1,6 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmtfs2elfjmxh"]
+
+[gd_scene load_steps=22 format=3 uid="uid://dmtfs2elfjmxh"]
 
 [ext_resource type="Script" path="res://Script/player.gd" id="1_4wdhb"]
+[ext_resource type="AudioStream" uid="uid://dtuwsq0nadsb3" path="res://Audio/pew_sfx.mp3" id="2_15rmf"]
 [ext_resource type="PackedScene" uid="uid://clg5wr8waxwle" path="res://Scene/Harold-animations.tscn" id="2_mr0vs"]
 [ext_resource type="PackedScene" uid="uid://dwskfqp60ryb1" path="res://Scene/firefly-jar.tscn" id="3_rig1q"]
 
@@ -18,6 +20,127 @@ size = Vector3(0.5, 0.5, 1.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5ids"]
 albedo_color = Color(0.415686, 0.176471, 0.741176, 1)
+
+[sub_resource type="Animation" id="Animation_yybcm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.647, 0, 1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_jqtt1"]
+resource_name = "aim_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_fyogc"]
+resource_name = "aim_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.647, 0, -0.3)]
+}
+
+[sub_resource type="Animation" id="Animation_b573p"]
+resource_name = "shoulder_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_huu76"]
+resource_name = "shoulder_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.647, 0, 1.25)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aya24"]
+_data = {
+"RESET": SubResource("Animation_yybcm"),
+"aim_left": SubResource("Animation_jqtt1"),
+"aim_right": SubResource("Animation_fyogc"),
+"shoulder_left": SubResource("Animation_b573p"),
+"shoulder_right": SubResource("Animation_huu76")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jovsm"]
+animation = &"aim_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fedb5"]
+animation = &"aim_right"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_51wq3"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_5fxs8"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6l4ki"]
+animation = &"shoulder_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rq3xd"]
+animation = &"shoulder_right"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_f656q"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7rjg1"]
+graph_offset = Vector2(14.4609, 236.568)
+nodes/aim_left/node = SubResource("AnimationNodeAnimation_jovsm")
+nodes/aim_left/position = Vector2(140, 60)
+nodes/aim_right/node = SubResource("AnimationNodeAnimation_fedb5")
+nodes/aim_right/position = Vector2(140, 340)
+nodes/aim_shoulder_left/node = SubResource("AnimationNodeBlend2_51wq3")
+nodes/aim_shoulder_left/position = Vector2(340, 120)
+nodes/aim_shoulder_right/node = SubResource("AnimationNodeBlend2_5fxs8")
+nodes/aim_shoulder_right/position = Vector2(340, 340)
+nodes/output/position = Vector2(760, 200)
+nodes/shoulder_left/node = SubResource("AnimationNodeAnimation_6l4ki")
+nodes/shoulder_left/position = Vector2(120, 200)
+nodes/shoulder_right/node = SubResource("AnimationNodeAnimation_rq3xd")
+nodes/shoulder_right/position = Vector2(100, 480)
+nodes/shoulder_swap/node = SubResource("AnimationNodeBlend2_f656q")
+nodes/shoulder_swap/position = Vector2(580, 180)
+node_connections = [&"aim_shoulder_left", 0, &"aim_left", &"aim_shoulder_left", 1, &"shoulder_left", &"aim_shoulder_right", 0, &"aim_right", &"aim_shoulder_right", 1, &"shoulder_right", &"output", 0, &"shoulder_swap", &"shoulder_swap", 0, &"aim_shoulder_left", &"shoulder_swap", 1, &"aim_shoulder_right"]
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_4wdhb")
@@ -71,7 +194,7 @@ bones/24/position = Vector3(2.58536e-06, 7.91657, 1.86265e-09)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.364, 0.947, 0.568)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.618648, -0.00368905, -0.275912)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.647, 0, 1.25)
 spring_length = 2.0
 margin = 0.5
 
@@ -84,8 +207,8 @@ target_position = Vector3(0, 0, -500)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
 
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
+fov = 57.1518
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.805189, -0.0441609, 2.56359)
-fov = 90.0
 
 [node name="StaticBody3D" type="StaticBody3D" parent="CamOrigin/SpringArm3D/Camera3D"]
 
@@ -111,6 +234,25 @@ transform = Transform3D(-7.27437e-08, 1.66418, 7.27437e-08, 0, -7.27437e-08, 1.6
 [node name="ShootTime" type="Timer" parent="firefly-jar"]
 wait_time = 0.05
 one_shot = true
+
+[node name="CamAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aya24")
+}
+
+[node name="CamTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_7rjg1")
+anim_player = NodePath("../CamAnim")
+parameters/aim_shoulder_left/blend_amount = 1.0
+parameters/aim_shoulder_right/blend_amount = -1.0
+parameters/shoulder_swap/blend_amount = 0.0
+
+[node name="Magazine" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50104, 0.246486, -0.611766)
+
+[node name="PewSFX" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_15rmf")
+volume_db = -15.0
 
 [node name="RayCast3D" type="RayCast3D" parent="firefly-jar"]
 target_position = Vector3(0, -1, -600)

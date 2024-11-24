@@ -13,7 +13,6 @@ func _on_timer_timeout() -> void:
 	queue_free()
 
 func _on_body_entered(body: Node3D) -> void:
-	print(body)
 	if !body.is_in_group("Player"):
 		set_process(false)
 		var particle = GPU.instantiate()
