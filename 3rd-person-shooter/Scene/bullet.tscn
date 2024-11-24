@@ -1,13 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddyad2ljvn1ht"]
+[gd_scene load_steps=5 format=3 uid="uid://ddyad2ljvn1ht"]
 
 [ext_resource type="Script" path="res://Script/bullet.gd" id="1_hggm7"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_aeyqm"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nxfhk"]
+metallic = 1.0
+emission_enabled = true
+emission = Color(1, 0.95, 0, 1)
+emission_energy_multiplier = 20.0
+ao_light_affect = 1.0
+
 [sub_resource type="SphereMesh" id="SphereMesh_uo3pv"]
 resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_nxfhk")
 
 [node name="Bullet" type="Area3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+collision_mask = 3
 script = ExtResource("1_hggm7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

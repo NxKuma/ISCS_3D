@@ -112,7 +112,7 @@ func shoot() -> void:
 	shoot_time.start()
 	
 	var b = PROJECTILE.instantiate()
-	b.rotation_degrees = gun_dir.global_transform.basis.get_euler()
+	b.rotation_degrees = gun.global_transform.basis.get_euler()
 	gun_dir.add_child(b)
 
 func _on_shoot_time_timeout() -> void:

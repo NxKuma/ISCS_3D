@@ -156,10 +156,11 @@ margin = 0.5
 
 [node name="RayCast3D" type="RayCast3D" parent="CamOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
+visible = false
 target_position = Vector3(0, -1, -500)
 
 [node name="Marker3D" type="Marker3D" parent="CamOrigin/SpringArm3D/RayCast3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -250)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -300)
 
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
 fov = 57.1518
@@ -170,10 +171,7 @@ mesh = SubResource("BoxMesh_25cyt")
 surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
 
 [node name="Marker3D" type="Marker3D" parent="DirMesh"]
-transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, 1, 1, 4.37114e-08, -4.37114e-08, 0, 0, -1.07896)
-
-[node name="RayCast3D" type="RayCast3D" parent="DirMesh"]
-target_position = Vector3(0, 0, -50)
+transform = Transform3D(-4.37114e-08, 1, 4.37114e-08, 0, -4.37114e-08, 1, 1, 4.37114e-08, 1.91069e-15, 0, 0, -0.813574)
 
 [node name="ShootTime" type="Timer" parent="DirMesh"]
 wait_time = 0.05
