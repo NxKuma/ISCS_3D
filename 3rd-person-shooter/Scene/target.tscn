@@ -42,7 +42,6 @@ script = ExtResource("1_h87ee")
 shape = SubResource("BoxShape3D_fdf04")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("BoxShape3D_arb8b")
