@@ -86,7 +86,7 @@ nodes/shoulder_swap/node = SubResource("AnimationNodeBlend2_f656q")
 nodes/shoulder_swap/position = Vector2(720, 100)
 node_connections = [&"output", 0, &"shoulder_swap", &"shoulder_swap", 0, &"shoulder_left", &"shoulder_swap", 1, &"shoulder_right"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_4wdhb")
 
 [node name="BodyCollision" type="CollisionShape3D" parent="."]
@@ -97,18 +97,25 @@ mesh = SubResource("CapsuleMesh_iwlb2")
 surface_material_override/0 = SubResource("StandardMaterial3D_dhqey")
 
 [node name="CamOrigin" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.96434, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174271, 0.964, 0)
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.647, -0.154, 0.628)
 spring_length = 2.0
 margin = 0.5
 
+[node name="RayCast3D" type="RayCast3D" parent="CamOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0889238, 1.98577)
+target_position = Vector3(0, -1, -500)
+
+[node name="Marker3D" type="Marker3D" parent="CamOrigin/SpringArm3D/RayCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -250)
+
 [node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
 fov = 57.1518
 
 [node name="DirMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.649662, -0.716027)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.4985, 0.280059, -0.240998)
 mesh = SubResource("BoxMesh_25cyt")
 surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
 
@@ -121,3 +128,17 @@ libraries = {
 tree_root = SubResource("AnimationNodeBlendTree_7rjg1")
 anim_player = NodePath("../CamAnim")
 parameters/shoulder_swap/blend_amount = 0.0
+[node name="Marker3D" type="Marker3D" parent="DirMesh"]
+transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, 1, 1, 4.37114e-08, -4.37114e-08, 0, 0, -1.07896)
+
+[node name="RayCast3D" type="RayCast3D" parent="DirMesh"]
+target_position = Vector3(0, 0, -50)
+
+[node name="ShootTime" type="Timer" parent="DirMesh"]
+wait_time = 0.05
+one_shot = true
+
+[node name="Magazine" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50104, 0.246486, -0.611766)
+
+[connection signal="timeout" from="DirMesh/ShootTime" to="." method="_on_shoot_time_timeout"]
