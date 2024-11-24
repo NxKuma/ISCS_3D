@@ -58,10 +58,20 @@ func _physics_process(delta):
 
 #	Left -2.364, 947
 #	Right 0.559,0.964
-	#if Input.is_action_pressed("aim"):
-		#pivot.position = pivot.position.lerp(Vector3(0.559,0.964,-0.499), 0.3)
-	#else:
-		#pivot.position = pivot.position.lerp(Vector3(0.559,0.964,0.568), 0.5)
+	if Input.is_action_pressed("aim"):
+		var x: float = 1.359
+		var y: float = 0.964
+		if shoulder == -1:
+			x = -1.364
+			y = 0.947
+		pivot.position = pivot.position.lerp(Vector3(x,y,0.499), 0.3)
+	else:
+		var x: float = 1.359
+		var y: float = 0.964
+		if shoulder == -1:
+			x = -1.364
+			y = 0.947
+		pivot.position = pivot.position.lerp(Vector3(x,y,2.568), 0.5)
 
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot()
@@ -90,14 +100,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * 0.3)
 		velocity.z = move_toward(velocity.z, 0, SPEED * 0.3)
 
-	$CamTree.set(shoulder_swap, lerp($CamTree.get(shoulder_swap), shoulder, delta*7))
-	
-	if aiming:
-		if $CamTree.get(shoulder_swap) > 0.5:
-			$CamTree.set(aim_shoulder_right, lerp($CamTree.get(aim_shoulder_right), aiming, delta*7))
-		elif $CamTree.get(shoulder_swap) < -0.5:
-			$CamTree.set(aim_shoulder_left, lerp($CamTree.get(aim_shoulder_left), aiming, delta*7))
-	
+	#$CamTree.set(shoulder_swap, lerp($CamTree.get(shoulder_swap), shoulder, delta*7))
+	#
+	#if aiming:
+		#if $CamTree.get(shoulder_swap) > 0.5:
+			#$CamTree.set(aim_shoulder_right, lerp($CamTree.get(aim_shoulder_right), aiming, delta*7))
+		#elif $CamTree.get(shoulder_swap) < -0.5:
+			#$CamTree.set(aim_shoulder_left, lerp($CamTree.get(aim_shoulder_left), aiming, delta*7))
+	#
 
 	move_and_slide()
 
