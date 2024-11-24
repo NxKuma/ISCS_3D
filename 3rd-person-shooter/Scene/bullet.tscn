@@ -13,7 +13,7 @@ script = ExtResource("1_hggm7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_aeyqm")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." groups=["Bullet"]]
 mesh = SubResource("SphereMesh_uo3pv")
 
 [node name="Timer" type="Timer" parent="."]

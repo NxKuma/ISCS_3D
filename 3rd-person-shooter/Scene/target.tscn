@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://bev5bqihmec2h"]
+
+[ext_resource type="Script" path="res://Script/target.gd" id="1_h87ee"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_u2uyx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffvee"]
+albedo_color = Color(0.572549, 0, 0, 1)
+emission_enabled = true
+emission = Color(0.412538, 0, 0.151406, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fdf04"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_arb8b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nh45k"]
+bg_color = Color(0, 0, 0, 0.501961)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8b5cd"]
+bg_color = Color(0.835754, 0.428733, 0.75535, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_eg7qt"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Target" type="MeshInstance3D"]
+mesh = SubResource("BoxMesh_u2uyx")
+surface_material_override/0 = SubResource("StandardMaterial3D_ffvee")
+script = ExtResource("1_h87ee")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+
+[node name="HurtboxCollision" type="CollisionShape3D" parent="Hurtbox"]
+shape = SubResource("BoxShape3D_fdf04")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_arb8b")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -13.5
+offset_right = 64.0
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_nh45k")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8b5cd")
+max_value = 5.0
+value = 5.0
+show_percentage = false
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.936934, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_eg7qt")
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

@@ -34,7 +34,6 @@ func _input(event):
 		
 func _physics_process(delta):
 	
-	#gun.rotate(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position,(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position).angle_to() )
 	safe_look_at(gun,mark.global_transform.origin)
 	
 	if not is_on_floor():
@@ -70,10 +69,8 @@ func _physics_process(delta):
 		var limit: int = 4
 		if Input.is_action_pressed("run"):
 			limit = 8
-		#velocity.x = direction.x * SPEED
 		velocity.x = move_toward(velocity.x, direction.x * limit, SPEED * 0.3 )
 		velocity.z = move_toward(velocity.z, direction.z * limit, SPEED * 0.3 )
-		#velocity.z = direction.z * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * 0.3)
 		velocity.z = move_toward(velocity.z, 0, SPEED * 0.3)
@@ -81,11 +78,9 @@ func _physics_process(delta):
 	$CamTree.set(shoulder_swap, lerp($CamTree.get(shoulder_swap), shoulder, delta*7))
 	
 	if aiming:
-		#if $CamTree.get(shoulder_swap):
-		if shoulder_swap:
+		if $CamTree.get(shoulder_swap) > 0.5:
 			$CamTree.set(aim_shoulder_right, lerp($CamTree.get(aim_shoulder_right), aiming, delta*7))
-		else:
-		#elif $CamTree.get(shoulder_swap) <= 0:
+		elif $CamTree.get(shoulder_swap) < -0.5:
 			$CamTree.set(aim_shoulder_left, lerp($CamTree.get(aim_shoulder_left), aiming, delta*7))
 	
 

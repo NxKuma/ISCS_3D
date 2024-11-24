@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://drtmklv0ipg5f"]
+[gd_scene load_steps=14 format=3 uid="uid://drtmklv0ipg5f"]
 
 [ext_resource type="PackedScene" uid="uid://dmtfs2elfjmxh" path="res://Scene/player.tscn" id="1_n85ye"]
+[ext_resource type="PackedScene" uid="uid://bev5bqihmec2h" path="res://Scene/target.tscn" id="2_b1shi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tkwws"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -13,6 +14,7 @@ sky_material = SubResource("ProceduralSkyMaterial_tkwws")
 background_mode = 2
 sky = SubResource("Sky_bfmsh")
 tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dw5cr"]
 
@@ -45,6 +47,7 @@ environment = SubResource("Environment_k0pmd")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+light_energy = 0.2
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_n85ye")]
@@ -69,6 +72,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_p4twt")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pillar/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_tn5e3")
 
+[node name="Target" parent="Pillar" instance=ExtResource("2_b1shi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00146341, 2.00726, -0.000399113)
+
 [node name="Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.47912, 1.51283, 3.03739)
 mesh = SubResource("BoxMesh_3var3")
@@ -78,3 +84,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_asind")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_lnice")
+
+[node name="Target" parent="." instance=ExtResource("2_b1shi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.72922, 1.38915, 1.69099)
