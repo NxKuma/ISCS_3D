@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmtfs2elfjmxh"]
+[gd_scene load_steps=21 format=3 uid="uid://dmtfs2elfjmxh"]
 
 [ext_resource type="Script" path="res://Script/player.gd" id="1_4wdhb"]
 
@@ -15,36 +15,6 @@ size = Vector3(0.5, 0.5, 1.5)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e5ids"]
 albedo_color = Color(0.415686, 0.176471, 0.741176, 1)
 
-[sub_resource type="Animation" id="Animation_b573p"]
-resource_name = "shoulder_left"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -0.154, 0.628)]
-}
-
-[sub_resource type="Animation" id="Animation_huu76"]
-resource_name = "shoulder_right"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.646966, -0.153585, 0.627788)]
-}
-
 [sub_resource type="Animation" id="Animation_yybcm"]
 length = 0.001
 tracks/0/type = "value"
@@ -60,12 +30,84 @@ tracks/0/keys = {
 "values": [Vector3(-0.647, -0.154, 0.628)]
 }
 
+[sub_resource type="Animation" id="Animation_b573p"]
+resource_name = "shoulder_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_huu76"]
+resource_name = "shoulder_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.647, 0, 1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_jqtt1"]
+resource_name = "aim_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, -1.25)]
+}
+
+[sub_resource type="Animation" id="Animation_fyogc"]
+resource_name = "aim_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CamOrigin/SpringArm3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.647, 0, -1.25)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_aya24"]
 _data = {
 "RESET": SubResource("Animation_yybcm"),
+"aim_left": SubResource("Animation_jqtt1"),
+"aim_right": SubResource("Animation_fyogc"),
 "shoulder_left": SubResource("Animation_b573p"),
 "shoulder_right": SubResource("Animation_huu76")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jovsm"]
+animation = &"aim_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fedb5"]
+animation = &"aim_right"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_51wq3"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_5fxs8"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6l4ki"]
 animation = &"shoulder_left"
@@ -76,15 +118,23 @@ animation = &"shoulder_right"
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_f656q"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7rjg1"]
-graph_offset = Vector2(-100.165, 18.9421)
-nodes/output/position = Vector2(1020, 140)
+graph_offset = Vector2(-218.402, 19.8824)
+nodes/aim_left/node = SubResource("AnimationNodeAnimation_jovsm")
+nodes/aim_left/position = Vector2(120, 60)
+nodes/aim_right/node = SubResource("AnimationNodeAnimation_fedb5")
+nodes/aim_right/position = Vector2(100, 360)
+nodes/aim_shoulder_left/node = SubResource("AnimationNodeBlend2_51wq3")
+nodes/aim_shoulder_left/position = Vector2(400, 100)
+nodes/aim_shoulder_right/node = SubResource("AnimationNodeBlend2_5fxs8")
+nodes/aim_shoulder_right/position = Vector2(460, 380)
+nodes/output/position = Vector2(1060, 240)
 nodes/shoulder_left/node = SubResource("AnimationNodeAnimation_6l4ki")
-nodes/shoulder_left/position = Vector2(420, 60)
+nodes/shoulder_left/position = Vector2(100, 200)
 nodes/shoulder_right/node = SubResource("AnimationNodeAnimation_rq3xd")
-nodes/shoulder_right/position = Vector2(400, 200)
+nodes/shoulder_right/position = Vector2(100, 500)
 nodes/shoulder_swap/node = SubResource("AnimationNodeBlend2_f656q")
-nodes/shoulder_swap/position = Vector2(720, 100)
-node_connections = [&"output", 0, &"shoulder_swap", &"shoulder_swap", 0, &"shoulder_left", &"shoulder_swap", 1, &"shoulder_right"]
+nodes/shoulder_swap/position = Vector2(820, 220)
+node_connections = [&"aim_shoulder_left", 0, &"aim_left", &"aim_shoulder_left", 1, &"shoulder_left", &"aim_shoulder_right", 0, &"aim_right", &"aim_shoulder_right", 1, &"shoulder_right", &"output", 0, &"shoulder_swap", &"shoulder_swap", 0, &"aim_shoulder_left", &"shoulder_swap", 1, &"aim_shoulder_right"]
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_4wdhb")
@@ -119,15 +169,6 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.4985, 0.280059, -0.24
 mesh = SubResource("BoxMesh_25cyt")
 surface_material_override/0 = SubResource("StandardMaterial3D_e5ids")
 
-[node name="CamAnim" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_aya24")
-}
-
-[node name="CamTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeBlendTree_7rjg1")
-anim_player = NodePath("../CamAnim")
-parameters/shoulder_swap/blend_amount = 0.0
 [node name="Marker3D" type="Marker3D" parent="DirMesh"]
 transform = Transform3D(-4.37114e-08, 1, 0, 4.37114e-08, 1.91069e-15, 1, 1, 4.37114e-08, -4.37114e-08, 0, 0, -1.07896)
 
@@ -137,6 +178,18 @@ target_position = Vector3(0, 0, -50)
 [node name="ShootTime" type="Timer" parent="DirMesh"]
 wait_time = 0.05
 one_shot = true
+
+[node name="CamAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aya24")
+}
+
+[node name="CamTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_7rjg1")
+anim_player = NodePath("../CamAnim")
+parameters/aim_shoulder_left/blend_amount = 1.0
+parameters/aim_shoulder_right/blend_amount = 1.0
+parameters/shoulder_swap/blend_amount = 1.0
 
 [node name="Magazine" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50104, 0.246486, -0.611766)

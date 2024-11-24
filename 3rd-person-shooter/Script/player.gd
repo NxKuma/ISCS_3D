@@ -4,7 +4,10 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 const PROJECTILE = preload("res://Scene/bullet.tscn")
 var shoulder_swap = "parameters/shoulder_swap/blend_amount"
+var aim_shoulder_right = "parameters/aim_shoulder_right/blend_amount"
+var aim_shoulder_left = "parameters/aim_shoulder_left/blend_amount"
 var shoulder = 1.0 #1 for s-right, 0 for s,left
+var aiming = 1.0 #1 for regular, 0 for ADS
 
 
 @onready var pivot = $CamOrigin
@@ -13,7 +16,7 @@ var shoulder = 1.0 #1 for s-right, 0 for s,left
 @onready var gun: MeshInstance3D = $DirMesh
 @onready var gun_dir: Marker3D = $DirMesh/Marker3D
 @onready var shoot_time: Timer = $DirMesh/ShootTime
-@export var sens: float = 0.5
+@export var sens: float = 0.3
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -37,10 +40,14 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	if Input.is_action_pressed("aim"):
-		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,-0.95), 0.3)
-	else:
-		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0), 0.5)
+	if Input.is_action_just_pressed("aim"):
+		aiming *= -1
+		#spring_arm_3d.position = spring_arm_3d.position.lerp(Vector3(0.174,0.964,-0.628), 0.3)
+	#else:
+		#spring_arm_3d.position = spring_arm_3d.position.lerp(Vector3(0.174,0.964,0.628), 0.5)
+		#pivot.position = pivot.position.lerp(Vector3(0.174,0.964,-0.628), 0.3)
+	#else:
+		#pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0.628), 0.5)
 
 	if Input.is_action_just_pressed("shoot") and can_shoot:
 		shoot()
@@ -72,6 +79,15 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED * 0.3)
 
 	$CamTree.set(shoulder_swap, lerp($CamTree.get(shoulder_swap), shoulder, delta*7))
+	
+	if aiming:
+		#if $CamTree.get(shoulder_swap):
+		if shoulder_swap:
+			$CamTree.set(aim_shoulder_right, lerp($CamTree.get(aim_shoulder_right), aiming, delta*7))
+		else:
+		#elif $CamTree.get(shoulder_swap) <= 0:
+			$CamTree.set(aim_shoulder_left, lerp($CamTree.get(aim_shoulder_left), aiming, delta*7))
+	
 
 	move_and_slide()
 
