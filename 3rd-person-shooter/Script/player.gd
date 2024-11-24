@@ -4,6 +4,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 @onready var pivot: Node3D = $CamOrigin
+@onready var mark: Marker3D = $CamOrigin/SpringArm3D/RayCast3D/Marker3D
 @onready var gun: MeshInstance3D = $DirMesh
 @export var sens: float = 0.5
 
@@ -22,6 +23,7 @@ func _input(event):
 func _physics_process(delta):
 	
 	#gun.rotate(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position,(pivot.get_child(0).get_child(0).target_position - gun.get_child(0).target_position).angle_to() )
+	safe_look_at(gun,mark.global_transform.origin)
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -54,3 +56,24 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * 0.3)
 		velocity.z = move_toward(velocity.z, 0, SPEED * 0.3)
 	move_and_slide()
+
+
+func safe_look_at(node : Node3D, target : Vector3) -> void:
+	var origin : Vector3 = node.global_transform.origin
+	var v_z := (origin - target).normalized()
+
+	# Just return if at same position
+	if origin == target:
+		return
+
+	# Find an up vector that we can rotate around
+	var up := Vector3.ZERO
+	for entry in [Vector3.UP, Vector3.RIGHT, Vector3.BACK]:
+		var v_x : Vector3 = entry.cross(v_z).normalized()
+		if v_x.length() != 0:
+			up = entry
+			break
+
+	# Look at the target
+	if up != Vector3.ZERO:
+		node.look_at(target, up)
