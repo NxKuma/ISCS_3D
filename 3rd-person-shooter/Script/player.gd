@@ -2,14 +2,19 @@ extends CharacterBody3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
+const PROJECTILE = preload("res://Scene/bullet.tscn")
 
 @onready var pivot: Node3D = $CamOrigin
 @onready var mark: Marker3D = $CamOrigin/SpringArm3D/RayCast3D/Marker3D
 @onready var gun: MeshInstance3D = $DirMesh
+@onready var gun_dir: Marker3D = $DirMesh/Marker3D
+@onready var shoot_time: Timer = $DirMesh/ShootTime
 @export var sens: float = 0.5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var can_shoot = true
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -32,6 +37,10 @@ func _physics_process(delta):
 		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,-0.95), 0.3)
 	else:
 		pivot.position = pivot.position.lerp(Vector3(0.174,0.964,0), 0.5)
+
+	if Input.is_action_just_pressed("shoot") and can_shoot:
+		print("Hello")
+		shoot()
 
 	# Handle Jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -57,7 +66,6 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED * 0.3)
 	move_and_slide()
 
-
 func safe_look_at(node : Node3D, target : Vector3) -> void:
 	var origin : Vector3 = node.global_transform.origin
 	var v_z := (origin - target).normalized()
@@ -77,3 +85,15 @@ func safe_look_at(node : Node3D, target : Vector3) -> void:
 	# Look at the target
 	if up != Vector3.ZERO:
 		node.look_at(target, up)
+		
+
+func shoot() -> void:
+	can_shoot = false
+	shoot_time.start()
+	
+	var b = PROJECTILE.instantiate()
+	b.rotation_degrees = gun_dir.global_transform.basis.get_euler()
+	gun_dir.add_child(b)
+
+func _on_shoot_time_timeout() -> void:
+	can_shoot = true
