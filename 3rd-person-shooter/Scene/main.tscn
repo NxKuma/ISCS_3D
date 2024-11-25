@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://drtmklv0ipg5f"]
+[gd_scene load_steps=19 format=3 uid="uid://drtmklv0ipg5f"]
 
 [ext_resource type="PackedScene" uid="uid://dmtfs2elfjmxh" path="res://Scene/player.tscn" id="1_n85ye"]
 [ext_resource type="PackedScene" uid="uid://bev5bqihmec2h" path="res://Scene/target.tscn" id="2_b1shi"]
 [ext_resource type="Texture2D" uid="uid://rb7ib2ghc35b" path="res://Art/crosshair.png" id="2_k3dri"]
+[ext_resource type="AudioStream" uid="uid://n3r2ynb2ct5a" path="res://Audio/Coconut Mall - Mario Kart Wii OST.mp3" id="4_4lqy6"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tkwws"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -145,3 +146,8 @@ libraries = {
 "": SubResource("AnimationLibrary_oxrvu")
 }
 autoplay = "move_target"
+
+[node name="BGM" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_4lqy6")
+volume_db = -10.0
+autoplay = true
